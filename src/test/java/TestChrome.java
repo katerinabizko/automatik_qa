@@ -20,8 +20,6 @@ public class TestChrome {
 
     @Test
     public void chromeTest() {
-
-
         driver.get(GOOGLE_URL);
 
 
@@ -30,7 +28,6 @@ public class TestChrome {
 
         WebElement searchField = driver.findElement(By.name("q"));
         searchField.sendKeys("acodemy");
-
         searchField.sendKeys(Keys.ENTER);
 
         Assert.assertEquals(driver.getTitle(), "acodemy - Google Search");
