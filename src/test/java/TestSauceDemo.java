@@ -1,4 +1,8 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,7 +20,11 @@ public class TestSauceDemo {
 
     @BeforeMethod(description = "Preconditions")
     public void initialize() {
-        driver = new ChromeDriver();
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions options= new ChromeOptions();
+        options.addArguments("--headless");
+
+        driver = new ChromeDriver(options);
         loginPage = new LoginPage(driver);
         inventoryPage = new InventoryPage(driver);
         driver.get(SAUCE_URL);
@@ -35,10 +43,11 @@ public class TestSauceDemo {
         loginPage.autorize("standard_user", "incorrect_pw");
         Assert.assertEquals(loginPage.getErrorMessage(), "Epic sadface: Username and password do not match any user in this service");
     }
-    @AfterMethod
-    public void tearDown() {
-        driver.close();
-        driver.quit();
-    }
-    }
 
+        @AfterMethod
+        public void tearDown() {
+            driver.close();
+            driver.quit();
+        }
+
+    }
